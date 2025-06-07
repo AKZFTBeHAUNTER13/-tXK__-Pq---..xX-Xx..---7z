@@ -1,10 +1,10 @@
-if (game:GetService("CoreGui")):FindFirstChild("Poison Hub") and (game:GetService("CoreGui")):FindFirstChild("ScreenGui") then
-	(game:GetService("CoreGui")).Poison Hub:Destroy();
+if (game:GetService("CoreGui")):FindFirstChild("Poison") and (game:GetService("CoreGui")):FindFirstChild("ScreenGui") then
+	(game:GetService("CoreGui")).Poison:Destroy();
 	(game:GetService("CoreGui")).ScreenGui:Destroy();
 end;
-_G.Primary = Color3.fromRGB(100, 100, 100);
-_G.Dark = Color3.fromRGB(22, 22, 26);
-_G.Third = Color3.fromRGB(255, 0, 0);
+getgenv().Primary = Color3.fromRGB(100, 100, 100);
+getgenv().Dark = Color3.fromRGB(22, 22, 26);
+getgenv().Third = Color3.fromRGB(255, 0, 0);
 function CreateRounded(Parent, Size)
 	local Rounded = Instance.new("UICorner");
 	Rounded.Name = "Rounded";
@@ -56,7 +56,7 @@ local OutlineButton = Instance.new("Frame");
 OutlineButton.Name = "OutlineButton";
 OutlineButton.Parent = ScreenGui;
 OutlineButton.ClipsDescendants = true;
-OutlineButton.BackgroundColor3 = _G.Dark;
+OutlineButton.BackgroundColor3 = getgenv().Dark;
 OutlineButton.BackgroundTransparency = 0;
 OutlineButton.Position = UDim2.new(0, 10, 0, 10);
 OutlineButton.Size = UDim2.new(0, 50, 0, 50);
@@ -66,7 +66,7 @@ ImageButton.Parent = OutlineButton;
 ImageButton.Position = UDim2.new(0.5, 0, 0.5, 0);
 ImageButton.Size = UDim2.new(0, 40, 0, 40);
 ImageButton.AnchorPoint = Vector2.new(0.5, 0.5);
-ImageButton.BackgroundColor3 = _G.Dark;
+ImageButton.BackgroundColor3 = getgenv().Dark;
 ImageButton.ImageColor3 = Color3.fromRGB(250, 250, 250);
 ImageButton.ImageTransparency = 0;
 ImageButton.BackgroundTransparency = 0;
@@ -75,7 +75,7 @@ ImageButton.AutoButtonColor = false;
 MakeDraggable(ImageButton, OutlineButton);
 CreateRounded(ImageButton, 10);
 ImageButton.MouseButton1Click:connect(function()
-	(game.CoreGui:FindFirstChild("Poison Hub")).Enabled = not (game.CoreGui:FindFirstChild("Poison Hub")).Enabled;
+	(game.CoreGui:FindFirstChild("Poison")).Enabled = not (game.CoreGui:FindFirstChild("Poison")).Enabled;
 end);
 local NotificationFrame = Instance.new("ScreenGui");
 NotificationFrame.Name = "NotificationFrame";
@@ -117,7 +117,7 @@ function Update:Notify(desc)
 	Frame.Parent = OutlineFrame;
 	Frame.ClipsDescendants = true;
 	Frame.AnchorPoint = Vector2.new(0.5, 0.5);
-	Frame.BackgroundColor3 = _G.Dark;
+	Frame.BackgroundColor3 = getgenv().Dark;
 	Frame.BackgroundTransparency = 0.1;
 	Frame.Position = UDim2.new(0.5, 0, 0.5, 0);
 	Frame.Size = UDim2.new(0, 400, 0, 60);
@@ -129,17 +129,17 @@ function Update:Notify(desc)
 	Image.Size = UDim2.new(0, 45, 0, 45);
 	Image.Image = "rbxassetid://105059922903197";
 	Title.Parent = Frame;
-	Title.BackgroundColor3 = _G.Primary;
+	Title.BackgroundColor3 = getgenv().Primary;
 	Title.BackgroundTransparency = 1;
 	Title.Position = UDim2.new(0, 55, 0, 14);
 	Title.Size = UDim2.new(0, 10, 0, 20);
 	Title.Font = Enum.Font.GothamBold;
-	Title.Text = "Poison Hub";
+	Title.Text = "Poison";
 	Title.TextColor3 = Color3.fromRGB(255, 255, 255);
 	Title.TextSize = 16;
 	Title.TextXAlignment = Enum.TextXAlignment.Left;
 	Desc.Parent = Frame;
-	Desc.BackgroundColor3 = _G.Primary;
+	Desc.BackgroundColor3 = getgenv().Primary;
 	Desc.BackgroundTransparency = 1;
 	Desc.Position = UDim2.new(0, 55, 0, 33);
 	Desc.Size = UDim2.new(0, 10, 0, 10);
@@ -184,7 +184,7 @@ function Update:StartLoad()
 	MainLoaderFrame.BorderSizePixel = 0;
 	local TitleLoader = Instance.new("TextLabel");
 	TitleLoader.Parent = MainLoaderFrame;
-	TitleLoader.Text = "Poison Hub";
+	TitleLoader.Text = "Poison";
 	TitleLoader.Font = Enum.Font.FredokaOne;
 	TitleLoader.TextSize = 50;
 	TitleLoader.TextColor3 = Color3.fromRGB(255, 255, 255);
@@ -260,16 +260,16 @@ local SettingsLib = {
 };
 (getgenv()).LoadConfig = function()
 	if readfile and writefile and isfile and isfolder then
-		if not isfolder("Poison Hub") then
-			makefolder("Poison Hub");
+		if not isfolder("Poison") then
+			makefolder("Poison");
 		end;
-		if not isfolder("Poison Hub/Library/") then
-			makefolder("Poison Hub/Library/");
+		if not isfolder("Poison/Library/") then
+			makefolder("Poison/Library/");
 		end;
-		if not isfile(("Poison Hub/Library/" .. game.Players.LocalPlayer.Name .. ".json")) then
-			writefile("Poison Hub/Library/" .. game.Players.LocalPlayer.Name .. ".json", (game:GetService("HttpService")):JSONEncode(SettingsLib));
+		if not isfile(("Poison/Library/" .. game.Players.LocalPlayer.Name .. ".json")) then
+			writefile("Poison/Library/" .. game.Players.LocalPlayer.Name .. ".json", (game:GetService("HttpService")):JSONEncode(SettingsLib));
 		else
-			local Decode = (game:GetService("HttpService")):JSONDecode(readfile("Poison Hub/Library/" .. game.Players.LocalPlayer.Name .. ".json"));
+			local Decode = (game:GetService("HttpService")):JSONDecode(readfile("Poison/Library/" .. game.Players.LocalPlayer.Name .. ".json"));
 			for i, v in pairs(Decode) do
 				SettingsLib[i] = v;
 			end;
@@ -281,15 +281,15 @@ local SettingsLib = {
 end;
 (getgenv()).SaveConfig = function()
 	if readfile and writefile and isfile and isfolder then
-		if not isfile(("Poison Hub/Library/" .. game.Players.LocalPlayer.Name .. ".json")) then
+		if not isfile(("Poison/Library/" .. game.Players.LocalPlayer.Name .. ".json")) then
 			(getgenv()).Load();
 		else
-			local Decode = (game:GetService("HttpService")):JSONDecode(readfile("Poison Hub/Library/" .. game.Players.LocalPlayer.Name .. ".json"));
+			local Decode = (game:GetService("HttpService")):JSONDecode(readfile("Poison/Library/" .. game.Players.LocalPlayer.Name .. ".json"));
 			local Array = {};
 			for i, v in pairs(SettingsLib) do
 				Array[i] = v;
 			end;
-			writefile("Poison Hub/Library/" .. game.Players.LocalPlayer.Name .. ".json", (game:GetService("HttpService")):JSONEncode(Array));
+			writefile("Poison/Library/" .. game.Players.LocalPlayer.Name .. ".json", (game:GetService("HttpService")):JSONEncode(Array));
 		end;
 	else
 		return warn("Status : Undetected Executor");
@@ -309,7 +309,8 @@ function Update:LoadAnimation()
 	return false;
 end;
 function Update:Window(Config)
-	assert(Config.SubTitle, "v4");
+	assert(Config.Title, "Title is required");
+	assert(Config.SubTitle, "SubTitle is required");
 	local WindowConfig = {
 		Size = Config.Size,
 		TabWidth = Config.TabWidth
@@ -320,13 +321,13 @@ function Update:Window(Config)
 	local currentpage = "";
 	local keybind = keybind or Enum.KeyCode.RightControl;
 	local yoo = string.gsub(tostring(keybind), "Enum.KeyCode.", "");
-	local Poison Hub = Instance.new("ScreenGui");
-	Poison Hub.Name = "Poison Hub";
-	Poison Hub.Parent = game.CoreGui;
-	Poison Hub.DisplayOrder = 999;
+	local Poison = Instance.new("ScreenGui");
+	Poison.Name = "Poison";
+	Poison.Parent = game.CoreGui;
+	Poison.DisplayOrder = 999;
 	local OutlineMain = Instance.new("Frame");
 	OutlineMain.Name = "OutlineMain";
-	OutlineMain.Parent = Poison Hub;
+	OutlineMain.Parent = Poison;
 	OutlineMain.ClipsDescendants = true;
 	OutlineMain.AnchorPoint = Vector2.new(0.5, 0.5);
 	OutlineMain.BackgroundColor3 = Color3.fromRGB(30, 30, 30);
@@ -352,7 +353,7 @@ function Update:Window(Config)
 	DragButton.Position = UDim2.new(1, 5, 1, 5);
 	DragButton.AnchorPoint = Vector2.new(1, 1);
 	DragButton.Size = UDim2.new(0, 15, 0, 15);
-	DragButton.BackgroundColor3 = _G.Primary;
+	DragButton.BackgroundColor3 = getgenv().Primary;
 	DragButton.BackgroundTransparency = 1;
 	DragButton.ZIndex = 10;
 	local mouse = game.Players.LocalPlayer:GetMouse();
@@ -378,7 +379,7 @@ function Update:Window(Config)
 	NameHub.AnchorPoint = Vector2.new(0, 0.5);
 	NameHub.Size = UDim2.new(0, 1, 0, 25);
 	NameHub.Font = Enum.Font.GothamBold;
-	NameHub.Text = "Poison Hub";
+	NameHub.Text = Config.Title;
 	NameHub.TextSize = 20;
 	NameHub.TextColor3 = Color3.fromRGB(255, 255, 255);
 	NameHub.TextXAlignment = Enum.TextXAlignment.Left;
@@ -401,7 +402,7 @@ function Update:Window(Config)
 	local CloseButton = Instance.new("ImageButton");
 	CloseButton.Name = "CloseButton";
 	CloseButton.Parent = Top;
-	CloseButton.BackgroundColor3 = _G.Primary;
+	CloseButton.BackgroundColor3 = getgenv().Primary;
 	CloseButton.BackgroundTransparency = 1;
 	CloseButton.AnchorPoint = Vector2.new(1, 0.5);
 	CloseButton.Position = UDim2.new(1, -15, 0.5, 0);
@@ -411,12 +412,12 @@ function Update:Window(Config)
 	CloseButton.ImageColor3 = Color3.fromRGB(245, 245, 245);
 	CreateRounded(CloseButton, 3);
 	CloseButton.MouseButton1Click:connect(function()
-		(game.CoreGui:FindFirstChild("Poison Hub")).Enabled = not (game.CoreGui:FindFirstChild("Poison Hub")).Enabled;
+		(game.CoreGui:FindFirstChild("Poison")).Enabled = not (game.CoreGui:FindFirstChild("Poison")).Enabled;
 	end);
 	local ResizeButton = Instance.new("ImageButton");
 	ResizeButton.Name = "ResizeButton";
 	ResizeButton.Parent = Top;
-	ResizeButton.BackgroundColor3 = _G.Primary;
+	ResizeButton.BackgroundColor3 = getgenv().Primary;
 	ResizeButton.BackgroundTransparency = 1;
 	ResizeButton.AnchorPoint = Vector2.new(1, 0.5);
 	ResizeButton.Position = UDim2.new(1, -50, 0.5, 0);
@@ -450,7 +451,7 @@ function Update:Window(Config)
 	local CloseSettings = Instance.new("ImageButton");
 	CloseSettings.Name = "CloseSettings";
 	CloseSettings.Parent = SettingsFrame;
-	CloseSettings.BackgroundColor3 = _G.Primary;
+	CloseSettings.BackgroundColor3 = getgenv().Primary;
 	CloseSettings.BackgroundTransparency = 1;
 	CloseSettings.AnchorPoint = Vector2.new(1, 0);
 	CloseSettings.Position = UDim2.new(1, -20, 0, 15);
@@ -465,7 +466,7 @@ function Update:Window(Config)
 	local SettingsButton = Instance.new("ImageButton");
 	SettingsButton.Name = "SettingsButton";
 	SettingsButton.Parent = Top;
-	SettingsButton.BackgroundColor3 = _G.Primary;
+	SettingsButton.BackgroundColor3 = getgenv().Primary;
 	SettingsButton.BackgroundTransparency = 1;
 	SettingsButton.AnchorPoint = Vector2.new(1, 0.5);
 	SettingsButton.Position = UDim2.new(1, -85, 0.5, 0);
@@ -608,8 +609,8 @@ function Update:Window(Config)
 		(getgenv()).SaveConfig();
 	end);
 	CreateButton("Reset Config", function()
-		if isfolder("Poison Hub") then
-			delfolder("Poison Hub");
+		if isfolder("Poison") then
+			delfolder("Poison");
 		end;
 		Update:Notify("Config has been reseted!");
 	end);
@@ -643,7 +644,7 @@ function Update:Window(Config)
 	local Page = Instance.new("Frame");
 	Page.Name = "Page";
 	Page.Parent = Main;
-	Page.BackgroundColor3 = _G.Dark;
+	Page.BackgroundColor3 = getgenv().Dark;
 	Page.Position = UDim2.new(0, Tab.Size.X.Offset + 18, 0, Top.Size.Y.Offset);
 	Page.Size = UDim2.new(Config.Size.X.Scale, Config.Size.X.Offset - Tab.Size.X.Offset - 25, Config.Size.Y.Scale, Config.Size.Y.Offset - Top.Size.Y.Offset - 8);
 	Page.BackgroundTransparency = 1;
@@ -672,7 +673,7 @@ function Update:Window(Config)
 	MakeDraggable(Top, OutlineMain);
 	UserInputService.InputBegan:Connect(function(input)
 		if input.KeyCode == Enum.KeyCode.Insert then
-			(game.CoreGui:FindFirstChild("Poison Hub")).Enabled = not (game.CoreGui:FindFirstChild("Poison Hub")).Enabled;
+			(game.CoreGui:FindFirstChild("Poison")).Enabled = not (game.CoreGui:FindFirstChild("Poison")).Enabled;
 		end;
 	end);
 	local Dragging = false;
@@ -715,7 +716,7 @@ function Update:Window(Config)
 		local SelectedTab = Instance.new("Frame");
 		SelectedTab.Name = "SelectedTab";
 		SelectedTab.Parent = TabButton;
-		SelectedTab.BackgroundColor3 = _G.Third;
+		SelectedTab.BackgroundColor3 = getgenv().Third;
 		SelectedTab.BackgroundTransparency = 0;
 		SelectedTab.Size = UDim2.new(0, 3, 0, 0);
 		SelectedTab.Position = UDim2.new(0, 0, 0.5, 0);
@@ -750,7 +751,7 @@ function Update:Window(Config)
 		MainFramePage.Name = text .. "_Page";
 		MainFramePage.Parent = PageList;
 		MainFramePage.Active = true;
-		MainFramePage.BackgroundColor3 = _G.Dark;
+		MainFramePage.BackgroundColor3 = getgenv().Dark;
 		MainFramePage.Position = UDim2.new(0, 0, 0, 0);
 		MainFramePage.BackgroundTransparency = 1;
 		MainFramePage.Size = UDim2.new(1, 0, 1, 0);
@@ -872,7 +873,7 @@ function Update:Window(Config)
 			local UICorner_3 = Instance.new("UICorner");
 			Button.Name = "Button";
 			Button.Parent = MainFramePage;
-			Button.BackgroundColor3 = _G.Primary;
+			Button.BackgroundColor3 = getgenv().Primary;
 			Button.BackgroundTransparency = 1;
 			Button.Size = UDim2.new(1, 0, 0, 36);
 			UICorner.CornerRadius = UDim.new(0, 5);
@@ -880,7 +881,7 @@ function Update:Window(Config)
 			local ImageLabel = Instance.new("ImageLabel");
 			ImageLabel.Name = "ImageLabel";
 			ImageLabel.Parent = TextButton;
-			ImageLabel.BackgroundColor3 = _G.Primary;
+			ImageLabel.BackgroundColor3 = getgenv().Primary;
 			ImageLabel.BackgroundTransparency = 1;
 			ImageLabel.AnchorPoint = Vector2.new(0.5, 0.5);
 			ImageLabel.Position = UDim2.new(0.5, 0, 0.5, 0);
@@ -903,7 +904,7 @@ function Update:Window(Config)
 			TextButton.TextSize = 15;
 			TextLabel.Name = "TextLabel";
 			TextLabel.Parent = Button;
-			TextLabel.BackgroundColor3 = _G.Primary;
+			TextLabel.BackgroundColor3 = getgenv().Primary;
 			TextLabel.BackgroundTransparency = 1;
 			TextLabel.AnchorPoint = Vector2.new(0, 0.5);
 			TextLabel.Position = UDim2.new(0, 20, 0.5, 0);
@@ -918,7 +919,7 @@ function Update:Window(Config)
             local ArrowRight = Instance.new("ImageLabel");
 			ArrowRight.Name = "ArrowRight";
 			ArrowRight.Parent = Button;
-			ArrowRight.BackgroundColor3 = _G.Primary;
+			ArrowRight.BackgroundColor3 = getgenv().Primary;
 			ArrowRight.BackgroundTransparency = 1;
 			ArrowRight.AnchorPoint = Vector2.new(0, 0.5);
 			ArrowRight.Position = UDim2.new(0, 0, 0.5, 0);
@@ -959,7 +960,7 @@ function Update:Window(Config)
 			local TextBoxIcon = Instance.new("ImageLabel");
 			Button.Name = "Button";
 			Button.Parent = MainFramePage;
-			Button.BackgroundColor3 = _G.Primary;
+			Button.BackgroundColor3 = getgenv().Primary;
 			Button.BackgroundTransparency = 0.8;
 			Button.AutoButtonColor = false;
 			Button.Font = Enum.Font.SourceSans;
@@ -998,7 +999,7 @@ function Update:Window(Config)
 			Desc.TextXAlignment = Enum.TextXAlignment.Left;
 			ToggleFrame.Name = "ToggleFrame";
 			ToggleFrame.Parent = Button;
-			ToggleFrame.BackgroundColor3 = _G.Dark;
+			ToggleFrame.BackgroundColor3 = getgenv().Dark;
 			ToggleFrame.BackgroundTransparency = 1;
 			ToggleFrame.Position = UDim2.new(1, -10, 0.5, 0);
 			ToggleFrame.Size = UDim2.new(0, 35, 0, 20);
@@ -1029,7 +1030,7 @@ function Update:Window(Config)
 					toggled = true;
 					Circle:TweenPosition(UDim2.new(0, 17, 0.5, 0), "Out", "Sine", 0.2, true);
 					(TweenService:Create(ToggleImage, TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-						BackgroundColor3 = _G.Third,
+						BackgroundColor3 = getgenv().Third,
 						BackgroundTransparency = 0
 					})):Play();
 				else
@@ -1046,7 +1047,7 @@ function Update:Window(Config)
 				toggled = true;
 				Circle:TweenPosition(UDim2.new(0, 17, 0.5, 0), "Out", "Sine", 0.4, true);
 				(TweenService:Create(ToggleImage, TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-					BackgroundColor3 = _G.Third,
+					BackgroundColor3 = getgenv().Third,
 					BackgroundTransparency = 0
 				})):Play();
 				pcall(callback, toggled);
@@ -1071,7 +1072,7 @@ function Update:Window(Config)
 			local UIStroke = Instance.new("UIStroke");
 			Dropdown.Name = "Dropdown";
 			Dropdown.Parent = MainFramePage;
-			Dropdown.BackgroundColor3 = _G.Primary;
+			Dropdown.BackgroundColor3 = getgenv().Primary;
 			Dropdown.BackgroundTransparency = 0.8;
 			Dropdown.ClipsDescendants = false;
 			Dropdown.Size = UDim2.new(1, 0, 0, 40);
@@ -1079,7 +1080,7 @@ function Update:Window(Config)
 			UICorner.Parent = Dropdown;
 			DropTitle.Name = "DropTitle";
 			DropTitle.Parent = Dropdown;
-			DropTitle.BackgroundColor3 = _G.Primary;
+			DropTitle.BackgroundColor3 = getgenv().Primary;
 			DropTitle.BackgroundTransparency = 1;
 			DropTitle.Size = UDim2.new(1, 0, 0, 30);
 			DropTitle.Font = Enum.Font.Cartoon;
@@ -1107,7 +1108,7 @@ function Update:Window(Config)
 			local ArrowDown = Instance.new("ImageLabel");
 			ArrowDown.Name = "ArrowDown";
 			ArrowDown.Parent = Dropdown;
-			ArrowDown.BackgroundColor3 = _G.Primary;
+			ArrowDown.BackgroundColor3 = getgenv().Primary;
 			ArrowDown.BackgroundTransparency = 1;
 			ArrowDown.AnchorPoint = Vector2.new(1, 0);
 			ArrowDown.Position = UDim2.new(1, -110, 0, 10);
@@ -1158,7 +1159,7 @@ function Update:Window(Config)
 				local ItemPadding = Instance.new("UIPadding");
 				Item.Name = "Item";
 				Item.Parent = DropScroll;
-				Item.BackgroundColor3 = _G.Primary;
+				Item.BackgroundColor3 = getgenv().Primary;
 				Item.BackgroundTransparency = 1;
 				Item.Size = UDim2.new(1, 0, 0, 30);
 				Item.Font = Enum.Font.Nunito;
@@ -1175,7 +1176,7 @@ function Update:Window(Config)
 				local SelectedItems = Instance.new("Frame");
 				SelectedItems.Name = "SelectedItems";
 				SelectedItems.Parent = Item;
-				SelectedItems.BackgroundColor3 = _G.Third;
+				SelectedItems.BackgroundColor3 = getgenv().Third;
 				SelectedItems.BackgroundTransparency = 1;
 				SelectedItems.Size = UDim2.new(0, 3, 0.4, 0);
 				SelectedItems.Position = UDim2.new(0, -8, 0.5, 0);
@@ -1261,7 +1262,7 @@ function Update:Window(Config)
 				local ItemPadding = Instance.new("UIPadding");
 				Item.Name = "Item";
 				Item.Parent = DropScroll;
-				Item.BackgroundColor3 = _G.Primary;
+				Item.BackgroundColor3 = getgenv().Primary;
 				Item.BackgroundTransparency = 1;
 				Item.Size = UDim2.new(1, 0, 0, 30);
 				Item.Font = Enum.Font.Nunito;
@@ -1278,7 +1279,7 @@ function Update:Window(Config)
 				local SelectedItems = Instance.new("Frame");
 				SelectedItems.Name = "SelectedItems";
 				SelectedItems.Parent = Item;
-				SelectedItems.BackgroundColor3 = _G.Third;
+				SelectedItems.BackgroundColor3 = getgenv().Third;
 				SelectedItems.BackgroundTransparency = 1;
 				SelectedItems.Size = UDim2.new(0, 3, 0.4, 0);
 				SelectedItems.Position = UDim2.new(0, -8, 0.5, 0);
@@ -1346,7 +1347,7 @@ function Update:Window(Config)
 			local posto = Instance.new("UIStroke");
 			Slider.Name = "Slider";
 			Slider.Parent = MainFramePage;
-			Slider.BackgroundColor3 = _G.Primary;
+			Slider.BackgroundColor3 = getgenv().Primary;
 			Slider.BackgroundTransparency = 1;
 			Slider.Size = UDim2.new(1, 0, 0, 35);
 			slidercorner.CornerRadius = UDim.new(0, 5);
@@ -1354,7 +1355,7 @@ function Update:Window(Config)
 			slidercorner.Parent = Slider;
 			sliderr.Name = "sliderr";
 			sliderr.Parent = Slider;
-			sliderr.BackgroundColor3 = _G.Primary;
+			sliderr.BackgroundColor3 = getgenv().Primary;
 			sliderr.BackgroundTransparency = 0.8;
 			sliderr.Position = UDim2.new(0, 0, 0, 0);
 			sliderr.Size = UDim2.new(1, 0, 0, 35);
@@ -1392,7 +1393,7 @@ function Update:Window(Config)
 			bar.AnchorPoint = Vector2.new(1, 0.5);
 			bar1.Name = "bar1";
 			bar1.Parent = bar;
-			bar1.BackgroundColor3 = _G.Third;
+			bar1.BackgroundColor3 = getgenv().Third;
 			bar1.BackgroundTransparency = 0;
 			bar1.Size = UDim2.new(set / max, 0, 0, 4);
 			bar1corner.CornerRadius = UDim.new(0, 5);
@@ -1457,7 +1458,7 @@ function Update:Window(Config)
 			local TextBoxIcon = Instance.new("ImageLabel");
 			Textbox.Name = "Textbox";
 			Textbox.Parent = MainFramePage;
-			Textbox.BackgroundColor3 = _G.Primary;
+			Textbox.BackgroundColor3 = getgenv().Primary;
 			Textbox.BackgroundTransparency = 0.8;
 			Textbox.Size = UDim2.new(1, 0, 0, 35);
 			TextboxCorner.CornerRadius = UDim.new(0, 5);
@@ -1465,7 +1466,7 @@ function Update:Window(Config)
 			TextboxCorner.Parent = Textbox;
 			TextboxLabel.Name = "TextboxLabel";
 			TextboxLabel.Parent = Textbox;
-			TextboxLabel.BackgroundColor3 = _G.Primary;
+			TextboxLabel.BackgroundColor3 = getgenv().Primary;
 			TextboxLabel.BackgroundTransparency = 1;
 			TextboxLabel.Position = UDim2.new(0, 15, 0.5, 0);
 			TextboxLabel.Text = text;
@@ -1502,7 +1503,7 @@ function Update:Window(Config)
 			local labelfunc = {};
 			Frame.Name = "Frame";
 			Frame.Parent = MainFramePage;
-			Frame.BackgroundColor3 = _G.Primary;
+			Frame.BackgroundColor3 = getgenv().Primary;
 			Frame.BackgroundTransparency = 1;
 			Frame.Size = UDim2.new(1, 0, 0, 30);
 			Label.Name = "Label";
@@ -1542,7 +1543,7 @@ local SepRadius = Instance.new("UICorner");
 
 Seperator.Name = "Seperator";
 Seperator.Parent = MainFramePage;
-Seperator.BackgroundColor3 = _G.Primary;
+Seperator.BackgroundColor3 = getgenv().Primary;
 Seperator.BackgroundTransparency = 1;
 Seperator.Size = UDim2.new(1, 0, 0, 36);
 
@@ -1558,11 +1559,11 @@ Sep1.BorderSizePixel = 0;
 Sep1.Text = "";
 local Grad1 = Instance.new("UIGradient");
 Grad1.Color = ColorSequence.new({
-	ColorSequenceKeypoint.new(0, _G.Dark),
-	ColorSequenceKeypoint.new(0.4, _G.Primary),
-	ColorSequenceKeypoint.new(0.5, _G.Primary),
-	ColorSequenceKeypoint.new(0.6, _G.Primary),
-	ColorSequenceKeypoint.new(1, _G.Dark)
+	ColorSequenceKeypoint.new(0, getgenv().Dark),
+	ColorSequenceKeypoint.new(0.4, getgenv().Primary),
+	ColorSequenceKeypoint.new(0.5, getgenv().Primary),
+	ColorSequenceKeypoint.new(0.6, getgenv().Primary),
+	ColorSequenceKeypoint.new(1, getgenv().Dark)
 });
 Grad1.Parent = Sep1;
 
@@ -1591,11 +1592,11 @@ Sep3.BorderSizePixel = 0;
 Sep3.Text = "";
 local Grad3 = Instance.new("UIGradient");
 Grad3.Color = ColorSequence.new({
-	ColorSequenceKeypoint.new(0, _G.Dark),
-	ColorSequenceKeypoint.new(0.4, _G.Primary),
-	ColorSequenceKeypoint.new(0.5, _G.Primary),
-	ColorSequenceKeypoint.new(0.6, _G.Primary),
-	ColorSequenceKeypoint.new(1, _G.Dark)
+	ColorSequenceKeypoint.new(0, getgenv().Dark),
+	ColorSequenceKeypoint.new(0.4, getgenv().Primary),
+	ColorSequenceKeypoint.new(0.5, getgenv().Primary),
+	ColorSequenceKeypoint.new(0.6, getgenv().Primary),
+	ColorSequenceKeypoint.new(1, getgenv().Dark)
 });
 Grad3.Parent = Sep3;
 
@@ -1617,11 +1618,11 @@ Grad3.Parent = Sep3;
 			Line.Position = UDim2.new(0, 0, 0, 10);
 			Line.Size = UDim2.new(1, 0, 0, 1);
 			UIGradient.Color = ColorSequence.new({
-				ColorSequenceKeypoint.new(0, _G.Dark),
-				ColorSequenceKeypoint.new(0.4, _G.Primary),
-				ColorSequenceKeypoint.new(0.5, _G.Primary),
-				ColorSequenceKeypoint.new(0.6, _G.Primary),
-				ColorSequenceKeypoint.new(1, _G.Dark)
+				ColorSequenceKeypoint.new(0, getgenv().Dark),
+				ColorSequenceKeypoint.new(0.4, getgenv().Primary),
+				ColorSequenceKeypoint.new(0.5, getgenv().Primary),
+				ColorSequenceKeypoint.new(0.6, getgenv().Primary),
+				ColorSequenceKeypoint.new(1, getgenv().Dark)
 			});
 			UIGradient.Parent = Line;
 		end;
