@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>RAW Downloads</title>
+    <title>Visualizador de RAW</title>
+    <script src="display-raw.js"></script>
 </head>
 <body>
-    <h1>Arquivos RAW</h1>
+    <h1>Conteúdo dos Arquivos RAW</h1>
     
-    <!-- LINKS PARA SEUS ARQUIVOS RAW -->
-    <a href="CAMERA_001.RAW" download>DOWNLOAD RAW 001</a><br>
-    <a href="CAMERA_002.RAW" download>DOWNLOAD RAW 002</a><br>
-    <a href="CAMERA_003.RAW" download>DOWNLOAD RAW 003</a><br>
+    <!-- Selecionar arquivo -->
+    <input type="file" id="rawFileInput" accept=".raw,.dng,.cr2,.nef,.arw">
     
-    <!-- Adicione quantos links precisar -->
+    <!-- Exibir conteúdo -->
+    <pre id="rawContent"></pre>
 </body>
 </html>
