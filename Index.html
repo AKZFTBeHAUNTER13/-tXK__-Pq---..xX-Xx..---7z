@@ -1,16 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Visualizador de RAW</title>
-    <script src="display-raw.js"></script>
+    <title>Visualizador de RAW/Textos</title>
+    <style>
+        body { font-family: monospace; margin: 20px; }
+        #fileContent { 
+            background: #f0f0f0; 
+            padding: 10px; 
+            border: 1px solid #ccc; 
+            white-space: pre-wrap;
+        }
+    </style>
 </head>
 <body>
-    <h1>Conteúdo dos Arquivos RAW</h1>
-    
-    <!-- Selecionar arquivo -->
-    <input type="file" id="rawFileInput" accept=".raw,.dng,.cr2,.nef,.arw">
-    
-    <!-- Exibir conteúdo -->
-    <pre id="rawContent"></pre>
+    <h1>🔍 Visualizador de Arquivos</h1>
+    <input type="file" id="fileInput">
+    <h3>Conteúdo:</h3>
+    <div id="fileContent">Selecione um arquivo...</div>
+
+    <script>
+        document.getElementById("fileInput").addEventListener("change", function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            
+            // Tenta ler como texto
+            reader.readAsText(file);
+            
+            reader.onload = function(e) {
+                const content = e.target.result;
+                
+                // Verifica se é binário (caracteres não imprimíveis)
+                if (/[\x00-\x08\x0E-\x1F]/.test(content)) {
+                    document.getElementById("fileContent").innerHTML = 
+                        "⚠️ Arquivo binário (RAW?)<br>" +
+                        "Não é possível exibir texto legível.";
+                } else {
+                    document.getElementById("fileContent").textContent = content;
+                }
+            };
+            
+            reader.onerror = function() {
+                alert("Erro ao ler o arquivo!");
+            };
+        });
+    </script>
 </body>
 </html>
