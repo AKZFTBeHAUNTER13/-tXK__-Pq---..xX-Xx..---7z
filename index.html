@@ -2,6 +2,11 @@
 <html>
 <body>
   <pre id="conteudo"></pre>
-  <script src="script.js"></script>
+
+  <script>
+    fetch('Code.lua')
+      .then(r => r.text())
+      .then(t => document.getElementById('conteudo').textContent = t);
+  </script>
 </body>
 </html>
