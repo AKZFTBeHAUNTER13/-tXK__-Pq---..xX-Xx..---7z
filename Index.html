@@ -1,50 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Visualizador de RAW/Textos</title>
+    <title>Visualizador de Code.lua</title>
+    <!-- Adiciona syntax highlighting (opcional) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
     <style>
-        body { font-family: monospace; margin: 20px; }
-        #fileContent { 
-            background: #f0f0f0; 
-            padding: 10px; 
-            border: 1px solid #ccc; 
-            white-space: pre-wrap;
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f8f8f8;
+        }
+        pre {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            overflow-x: auto;
         }
     </style>
 </head>
 <body>
-    <h1>🔍 Visualizador de Arquivos</h1>
-    <input type="file" id="fileInput">
-    <h3>Conteúdo:</h3>
-    <div id="fileContent">Selecione um arquivo...</div>
+    <h1>Code.lua</h1>
+    <pre><code id="file-content">Carregando...</code></pre>
 
     <script>
-        document.getElementById("fileInput").addEventListener("change", function(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            
-            // Tenta ler como texto
-            reader.readAsText(file);
-            
-            reader.onload = function(e) {
-                const content = e.target.result;
-                
-                // Verifica se é binário (caracteres não imprimíveis)
-                if (/[\x00-\x08\x0E-\x1F]/.test(content)) {
-                    document.getElementById("fileContent").innerHTML = 
-                        "⚠️ Arquivo binário (RAW?)<br>" +
-                        "Não é possível exibir texto legível.";
-                } else {
-                    document.getElementById("fileContent").textContent = content;
-                }
-            };
-            
-            reader.onerror = function() {
-                alert("Erro ao ler o arquivo!");
-            };
-        });
+        // Busca o arquivo Code.lua e exibe
+        fetch('Code.lua')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('file-content').textContent = data;
+                // Ativa syntax highlighting (opcional)
+                hljs.highlightAll();
+            })
+            .catch(error => {
+                document.getElementById('file-content').textContent = 'Erro ao carregar o arquivo.';
+                console.error(error);
+            });
     </script>
 </body>
 </html>
