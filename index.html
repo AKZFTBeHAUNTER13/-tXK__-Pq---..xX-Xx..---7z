@@ -5,9 +5,9 @@
 
     <script>
       fetch('Code.lua')
-        .then(r => r.text())
-        .then(t => {
-          document.getElementById('conteudo').textContent = t;
+        .then(res => res.text())
+        .then(text => {
+          document.getElementById('conteudo').textContent = text;
         })
         .catch(() => {
           document.getElementById('conteudo').textContent = 'Erro ao carregar Code.lua';
