@@ -1,43 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Visualizador de Code.lua</title>
-    <!-- Adiciona syntax highlighting (opcional) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <title></title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background: #f8f8f8;
-        }
-        pre {
-            background: white;
-            padding: 15px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            overflow-x: auto;
+        body { margin: 0; padding: 0; }
+        pre { 
+            white-space: pre-wrap;
+            margin: 0;
+            padding: 10px;
+            font-family: monospace;
         }
     </style>
 </head>
 <body>
-    <h1>Code.lua</h1>
-    <pre><code id="file-content">Carregando...</code></pre>
+    <pre id="content">Carregando...</pre>
 
     <script>
-        // Busca o arquivo Code.lua e exibe
         fetch('Code.lua')
             .then(response => response.text())
             .then(data => {
-                document.getElementById('file-content').textContent = data;
-                // Ativa syntax highlighting (opcional)
-                hljs.highlightAll();
+                document.getElementById('content').textContent = data;
             })
             .catch(error => {
-                document.getElementById('file-content').textContent = 'Erro ao carregar o arquivo.';
-                console.error(error);
+                document.getElementById('content').textContent = 'Erro ao carregar o arquivo.';
             });
     </script>
 </body>
