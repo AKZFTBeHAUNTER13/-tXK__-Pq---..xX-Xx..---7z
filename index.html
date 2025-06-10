@@ -1,20 +1,17 @@
 <!DOCTYPE html>
 <html>
-<body>
-  <pre id="conteudo">Carregando...</pre>
+  <body>
+    <pre id="conteudo"></pre>
 
-  <script>
-    fetch('Code.lua')
-      .then(response => {
-        if (!response.ok) throw new Error('Erro ao carregar: ' + response.statusText);
-        return response.text();
-      })
-      .then(texto => {
-        document.getElementById('conteudo').textContent = texto;
-      })
-      .catch(erro => {
-        document.getElementById('conteudo').textContent = 'Erro: ' + erro.message;
-      });
-  </script>
-</body>
+    <script>
+      fetch('Code.lua')
+        .then(r => r.text())
+        .then(t => {
+          document.getElementById('conteudo').textContent = t;
+        })
+        .catch(() => {
+          document.getElementById('conteudo').textContent = 'Erro ao carregar Code.lua';
+        });
+    </script>
+  </body>
 </html>
