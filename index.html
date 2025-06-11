@@ -1,17 +1,234 @@
 <!DOCTYPE html>
-<html>
-  <body>
-    <pre id="conteudo"></pre>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leitor de Arquivo 📄</title>
+  <style>
+    :root {
+      --roxo-claro: #b266ff;
+      --roxo-escuro: #1f0026;
+      --roxo-medio: #660099;
+      --texto-claro: #ffffff;
+    }
 
-    <script>
-      fetch('Code.lua')
-        .then(res => res.text())
-        .then(text => {
-          document.getElementById('conteudo').textContent = text;
-        })
-        .catch(() => {
-          document.getElementById('conteudo').textContent = 'Erro ao carregar Code.lua';
-        });
-    </script>
-  </body>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, var(--roxo-escuro), #330033);
+      font-family: 'Segoe UI', sans-serif;
+      color: var(--texto-claro);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      color: var(--roxo-claro);
+      text-shadow: 0 0 10px var(--roxo-medio);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .upload-container {
+      background-color: #2a0033;
+      padding: 25px;
+      border-radius: 15px;
+      border: 2px dashed var(--roxo-claro);
+      width: 100%;
+      max-width: 700px;
+      text-align: center;
+      box-shadow: 0 0 15px #660066;
+    }
+
+    .upload-label {
+      display: inline-block;
+      padding: 14px 30px;
+      background-color: var(--roxo-medio);
+      color: white;
+      font-size: 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      margin-top: 10px;
+    }
+
+    .upload-label:hover {
+      background-color: #7e00cc;
+      transform: scale(1.05);
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .notificacao {
+      margin-top: 20px;
+      font-size: 1rem;
+      background-color: #3c0055;
+      border-left: 5px solid var(--roxo-claro);
+      border-radius: 10px;
+      padding: 12px 20px;
+      display: none;
+      animation: fadeInSlide 0.6s forwards;
+    }
+
+    .code-container {
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+      margin-top: 25px;
+    }
+
+    pre {
+      background-color: #1a001f;
+      border: 1px solid #660066;
+      border-radius: 10px;
+      padding: 20px;
+      max-height: 400px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      box-shadow: 0 0 10px #550077;
+      font-size: 0.95rem;
+      position: relative;
+    }
+
+    .copy-button {
+      position: absolute;
+      top: 5px; /* ← Subido um pouco mais */
+      right: 10px;
+      background: #660099;
+      border: none;
+      color: white;
+      padding: 5px 10px;
+      font-size: 0.8rem;
+      border-radius: 5px;
+      cursor: pointer;
+      opacity: 0.85;
+      transition: all 0.2s;
+    }
+
+    .copy-button:hover {
+      background-color: #7e00cc;
+      opacity: 1;
+      transform: scale(1.05);
+    }
+
+    @keyframes fadeInSlide {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.7rem;
+      }
+
+      .upload-label {
+        padding: 12px 20px;
+        font-size: 0.9rem;
+      }
+
+      .upload-container {
+        padding: 18px;
+      }
+
+      pre {
+        font-size: 0.85rem;
+        max-height: 300px;
+      }
+
+      .copy-button {
+        padding: 4px 8px;
+        font-size: 0.7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Visualizador de Arquivo 📂✨</h1>
+
+  <div class="upload-container">
+    <p>📎 Envie um arquivo de texto para visualizar o conteúdo!</p>
+    <label for="fileInput" class="upload-label">Selecionar Arquivo</label>
+    <input type="file" id="fileInput" accept=".txt,.lua,.json,.md,.log,.csv" />
+    <div id="notificacao" class="notificacao">Notificação aparecerá aqui</div>
+  </div>
+
+  <div class="code-container">
+    <button class="copy-button" onclick="copiarTexto()">📋 Copiar</button>
+    <pre id="caixaCodigo">📝 O conteúdo do arquivo aparecerá aqui...</pre>
+  </div>
+
+  <script>
+    const fileInput = document.getElementById('fileInput');
+    const caixaCodigo = document.getElementById('caixaCodigo');
+    const notificacao = document.getElementById('notificacao');
+
+    fileInput.addEventListener('change', () => {
+      const arquivo = fileInput.files[0];
+
+      if (!arquivo) {
+        mostrarNotificacao("⚠️ Nenhum arquivo selecionado.");
+        return;
+      }
+
+      if (!arquivo.name.match(/\.(txt|lua|json|md|log|csv)$/i)) {
+        mostrarNotificacao("❌ Arquivo não suportado. Use um arquivo de texto!");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        caixaCodigo.textContent = e.target.result;
+        mostrarNotificacao(`✅ Arquivo "${arquivo.name}" carregado com sucesso!`);
+      };
+      reader.onerror = () => {
+        mostrarNotificacao("❌ Erro ao ler o arquivo.");
+      };
+
+      reader.readAsText(arquivo);
+    });
+
+    function copiarTexto() {
+      const texto = caixaCodigo.textContent;
+      const tempTextarea = document.createElement("textarea");
+      tempTextarea.value = texto;
+      document.body.appendChild(tempTextarea);
+      tempTextarea.select();
+      try {
+        document.execCommand("copy");
+        mostrarNotificacao("📋 Conteúdo copiado com sucesso!");
+      } catch (err) {
+        mostrarNotificacao("❌ Erro ao copiar conteúdo.");
+      }
+      document.body.removeChild(tempTextarea);
+    }
+
+    function mostrarNotificacao(texto) {
+      notificacao.textContent = texto;
+      notificacao.style.display = 'block';
+      notificacao.style.animation = 'none';
+      void notificacao.offsetWidth;
+      notificacao.style.animation = 'fadeInSlide 0.6s forwards';
+    }
+  </script>
+
+</body>
 </html>
