@@ -1,0 +1,5 @@
+# Permitir apenas User-Agent com "Roblox" acessar o script diretamente
+/  /script.lua  200!  User-Agent=Roblox
+
+# Todos os outros (como navegadores) recebem a página de acesso negado
+/  /index.html  403
